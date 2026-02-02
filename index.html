@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>French Flashcards</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <div id="app">
+    <header>
+      <h1>French Mastery</h1>
+    </header>
+
+    <!-- Navigation & Filters -->
+    <div class="top-bar">
+      <div class="progress" id="progress-display">Loading...</div>
+      <button id="btn-mode-toggle" class="btn-mode">Practice Quiz</button>
+      <div class="filter-container">
+        <select id="cefr-filter">
+          <option value="all">All Levels</option>
+          <option value="A1">Level A1</option>
+          <option value="A2">Level A2</option>
+          <option value="B1">Level B1</option>
+          <option value="B2">Level B2</option>
+          <option value="C1">Level C1</option>
+          <option value="C2">Level C2</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- 3D Card Scene -->
+    <div class="card-scene">
+      <div class="card" id="flashcard">
+        <!-- Front Face -->
+        <div class="card-face front">
+          <div class="frequency-tag" id="card-freq">#1</div>
+          <div class="meta-tag" id="card-level">A1</div>
+          <div class="word-container" style="display:flex; flex-direction:row; align-items:center; gap:1.5rem;">
+            <div class="word-main" id="card-word">être</div>
+            <button class="btn-audio" id="btn-audio-front" aria-label="Play Front Audio">🔊</button>
+          </div>
+          <div class="pos" id="card-pos">VERB</div>
+          <div class="hint">(Tap to flip)</div>
+        </div>
+
+        <!-- Back Face -->
+        <div class="card-face back">
+          <div class="translation-main" id="card-translation">to be</div>
+          <div class="examples">
+            <div class="example-row">
+              <div class="example-native" id="card-ex-native">Je suis étudiant.</div>
+              <button class="btn-audio small" id="btn-audio-back" aria-label="Play Sentence Audio">🔊</button>
+            </div>
+            <div class="example-en" id="card-ex-en">I am a student.</div>
+            <div id="card-image" class="card-image" style="display:none;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quiz View (Hidden by default) -->
+    <div id="quiz-view" class="quiz-container hidden">
+      <div class="quiz-header">
+        <div class="quiz-label">FRENCH</div>
+        <div class="quiz-word" id="quiz-word">parfois</div>
+      </div>
+
+      <div class="quiz-context-card">
+        <div class="quiz-sentence" id="quiz-sentence">"Parfois, je travaille le weekend."</div>
+        <div class="quiz-translation text-muted hidden" id="quiz-translation"></div>
+      </div>
+
+      <div class="quiz-instruction">SELECT THE MEANING</div>
+
+      <div class="quiz-options" id="quiz-options">
+        <!-- Options injected via JS -->
+        <button class="quiz-option">
+          <span class="opt-letter">A.</span>
+          <span class="opt-text">sometimes</span>
+        </button>
+      </div>
+
+      <!-- Feedback / Next Button Area -->
+      <div class="quiz-footer hidden" id="quiz-footer">
+        <div class="quiz-feedback" id="quiz-feedback">Correct!</div>
+        <button id="btn-quiz-next" class="btn-quiz-primary">Next Word →</button>
+      </div>
+    </div>
+
+    <!-- Control Buttons -->
+    <div class="controls" id="flashcard-controls">
+      <button id="btn-prev" aria-label="Previous Card">← Prev</button>
+      <button id="btn-shuffle" aria-label="Shuffle Cards">Shuffle</button>
+      <button id="btn-next" class="primary" aria-label="Next Card">Next →</button>
+    </div>
+
+    <div class="footer-area">
+      <!-- Old button location removed -->
+
+      <div class="footer-links">
+        <button id="btn-settings" class="btn-text">Settings</button>
+        <div class="hint">Keyboard shortcuts: ← Previous, → Next, Space to Flip</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div id="settings-modal" class="modal hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Audio Settings</h2>
+        <button id="btn-close-settings" class="btn-close">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Audio Provider</label>
+          <div class="radio-group">
+            <label>
+              <input type="radio" name="audio-provider" value="wikimedia">
+              Wikimedia Commons (Human / Best)
+            </label>
+            <label id="label-coqui-option">
+              <input type="radio" name="audio-provider" value="coqui">
+              Local Coqui XTTS (AI / Free)
+            </label>
+            <label>
+              <input type="radio" name="audio-provider" value="browser" checked>
+              Browser Native (Free)
+            </label>
+            <label>
+              <input type="radio" name="audio-provider" value="openai">
+              OpenAI HQ (Requires Key)
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group" id="group-coqui-config" style="display:none">
+          <label>Local Server Configuration</label>
+          <input type="text" id="input-coqui-url" value="http://localhost:5002/api/tts"
+            placeholder="http://localhost:5002/api/tts">
+          <label style="margin-top:0.5rem">Speaker ID (Optional)</label>
+          <input type="text" id="input-coqui-speaker" placeholder="fr (or leave empty)">
+          <small>Run <code>tts-server</code> locally. <a href="#" id="link-coqui-help">Setup Instructions</a></small>
+        </div>
+
+        <div class="form-group" id="group-openai-key" style="display:none">
+          <label for="input-api-key">OpenAI API Key</label>
+          <input type="password" id="input-api-key" placeholder="sk-...">
+          <small>Stored locally in your browser.</small>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="btn-save-settings" class="primary">Save Settings</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+
+</html>
