@@ -59,7 +59,7 @@ const els = {
 
 async function init() {
   try {
-    const response = await fetch('/flashcards.json');
+    const response = await fetch('./flashcards.json');
     if (!response.ok) throw new Error('Failed to load flashcards');
 
     state.allCards = await response.json();
@@ -249,7 +249,7 @@ function renderCard() {
     if (card.word) {
       // Normalize word to match filename (e.g. être -> etre)
       const slug = card.word.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-      const imgPath = `/images/${slug}.png`;
+      const imgPath = `./images/${slug}.png`;
 
       // Try to load image
       const img = new Image();
