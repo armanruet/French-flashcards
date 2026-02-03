@@ -873,7 +873,7 @@ small {
   }
 
   .quiz-sentence {
-    font-size: 1rem;
+    font-size: 1.3rem;
   }
 
   .quiz-translation {
@@ -884,13 +884,13 @@ small {
 
   /* Smaller instruction */
   .quiz-instruction {
-    font-size: 0.65rem;
+    font-size: 0.70rem;
     margin-bottom: 0.25rem;
   }
 
   /* Compact options */
   .quiz-options {
-    gap: 0.5rem;
+    gap: 0.6rem;
   }
 
   .quiz-option {
