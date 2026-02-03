@@ -841,3 +841,95 @@ small {
   z-index: 2000;
   pointer-events: none;
 }
+
+/* =========================================
+   MOBILE RESPONSIVE
+   ========================================= */
+@media (max-width: 480px) {
+
+  /* Smaller toggle button */
+  .btn-mode {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.7rem;
+    min-width: auto;
+    border-radius: 8px;
+  }
+
+  /* Compact top bar */
+  .top-bar {
+    gap: 0.5rem;
+    font-size: 0.75rem;
+  }
+
+  /* Smaller quiz word */
+  .quiz-word {
+    font-size: 2.5rem;
+  }
+
+  /* Compact context card */
+  .quiz-context-card {
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .quiz-sentence {
+    font-size: 1rem;
+  }
+
+  .quiz-translation {
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+  }
+
+  /* Smaller instruction */
+  .quiz-instruction {
+    font-size: 0.65rem;
+    margin-bottom: 0.25rem;
+  }
+
+  /* Compact options */
+  .quiz-options {
+    gap: 0.5rem;
+  }
+
+  .quiz-option {
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+  }
+
+  .opt-letter {
+    width: 24px;
+    height: 24px;
+    font-size: 0.7rem;
+  }
+
+  .opt-text {
+    font-size: 0.9rem;
+  }
+
+  /* Compact footer */
+  .quiz-footer {
+    margin-top: 0.5rem;
+  }
+
+  .quiz-feedback {
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .btn-quiz-primary {
+    padding: 0.9rem;
+    font-size: 0.95rem;
+    border-radius: 12px;
+  }
+
+  /* Reduce header */
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  header {
+    margin-bottom: 0.5rem;
+  }
+}
